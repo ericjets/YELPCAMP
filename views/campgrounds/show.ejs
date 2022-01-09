@@ -14,6 +14,11 @@
     <h1><%=foundCamp.title%></h1>
     <h2><%=foundCamp.location%></h2>
 
+    <p>
+        <form action="/campgrounds/<%=foundCamp._id%>?_method=DELETE" method="post">
+            <button>Delete</button>
+        </form>
+    </p>
     <footer>
         <a href="/campgrounds">All Campgrounds</a>
         <a href="/campgrounds/<%=foundCamp._id%>/edit">Edit</a>

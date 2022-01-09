@@ -72,7 +72,7 @@ app.get("/campgrounds/:id/edit", async (req, res) => {
   res.render("campgrounds/edit", { foundCamp });
 });
 
-//
+// Route for the patch request from ^
 app.put("/campgrounds/:id", async (req, res) => {
   const { id } = req.params;
   const foundCamp = await Campground.findByIdAndUpdate(
@@ -83,6 +83,13 @@ app.put("/campgrounds/:id", async (req, res) => {
   console.log(req.body.campground);
   res.redirect(`/campgrounds/${foundCamp._id}`);
 });
+
+// A route that allows the user to delete a campground
+app.delete("/campgrounds/:id", async (req, res) => {
+    const { id } = req.params;
+    const foundCamp = await Campground.findByIdAndDelete(id);
+    res.redirect('/campgrounds');
+})
 
 // Start up the server on port 3000, when connected notify
 app.listen(3000, () => {
