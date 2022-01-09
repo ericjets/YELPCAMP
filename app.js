@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const Campground = require("./models/campground");
 const methodOverride = require("method-override");
+const morgan = require('morgan');
 
 mongoose
   .connect("mongodb://localhost:27017/YelpCampDB", {
@@ -20,10 +21,13 @@ mongoose
 const app = express(); // Create server
 app.set("view engine", "ejs"); // Allow use of ejs files
 app.set("views", path.join(__dirname, "views"));
-app.use(express.urlencoded({ extended: true })); // Required for something....
+app.use(express.urlencoded({ extended: true })); // Required for parsing nested objects
 // Required for the edit page to make the form use a PUT request
 // to update the camp in the database.
 app.use(methodOverride("_method"));
+
+app.use(morgan('tiny')); // Adds the 'tiny' morgan request logger to every request
+
 
 // Routes
 // Home page
