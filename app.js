@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const Campground = require("./models/campground");
 const methodOverride = require("method-override");
-const morgan = require('morgan');
+const morgan = require("morgan");
 
 mongoose
   .connect("mongodb://localhost:27017/YelpCampDB", {
@@ -26,8 +26,7 @@ app.use(express.urlencoded({ extended: true })); // Required for parsing nested 
 // to update the camp in the database.
 app.use(methodOverride("_method"));
 
-app.use(morgan('tiny')); // Adds the 'tiny' morgan request logger to every request
-
+app.use(morgan("tiny")); // Adds the 'tiny' morgan request logger to every request
 
 // Routes
 // Home page
@@ -81,7 +80,7 @@ app.put("/campgrounds/:id", async (req, res) => {
   const { id } = req.params;
   const foundCamp = await Campground.findByIdAndUpdate(
     id,
-      { ...req.body.campground },
+    { ...req.body.campground },
     { runValidators: true, new: true }
   );
   console.log(req.body.campground);
@@ -90,10 +89,15 @@ app.put("/campgrounds/:id", async (req, res) => {
 
 // A route that allows the user to delete a campground
 app.delete("/campgrounds/:id", async (req, res) => {
-    const { id } = req.params;
-    const foundCamp = await Campground.findByIdAndDelete(id);
-    res.redirect('/campgrounds');
-})
+  const { id } = req.params;
+  const foundCamp = await Campground.findByIdAndDelete(id);
+  res.redirect("/campgrounds");
+});
+
+// Middleware for 404 errors
+app.use((req, res) => {
+    res.status(404).send('Not Found');
+});
 
 // Start up the server on port 3000, when connected notify
 app.listen(3000, () => {
