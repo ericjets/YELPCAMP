@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const ejsMate = require('ejs-mate');
 const Campground = require("./models/campground");
 const methodOverride = require("method-override");
 const morgan = require("morgan");
@@ -19,6 +20,7 @@ mongoose
   });
 
 const app = express(); // Create server
+app.engine('ejs', ejsMate); // New egine
 app.set("view engine", "ejs"); // Allow use of ejs files
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true })); // Required for parsing nested objects
