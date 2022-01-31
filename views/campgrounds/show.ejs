@@ -1,25 +1,63 @@
 <% layout('layouts/boilerplate')%>
-    <div class="row">
-        <div class="col-6 offset-3">
-            <div class="card mb-3">
-                <img src="<%=foundCamp.image%>" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title"><%=foundCamp.title%></h5>
-                  <p class="card-text"><%=foundCamp.description%></p>
-                </div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item"><%=foundCamp.location%></li>
-                  <li class="list-group-item">$<%=foundCamp.price%>/night </li>
-                </ul>
-                <div class="card-body">
-                  <a href="/campgrounds/<%=foundCamp._id%>/edit" class="btn btn-info card-link">Edit</a>
-                  <form class="d-inline" action="/campgrounds/<%=foundCamp._id%>?_method=DELETE" method="post">
-                    <button class="btn btn-danger">Delete</button>
-                </form>
-                </div>
-                <div class="card-footer text-muted">
-                    2 days ago
-                </div>
-              </div>
+  <div class="row">
+    <div class="col-6">
+      <div class="card mb-3">
+        <img src="<%=foundCamp.image%>" class="card-img-top" alt="camp image">
+        <div class="card-body">
+          <h5 class="card-title">
+            <%=foundCamp.title%>
+          </h5>
+          <p class="card-text">
+            <%=foundCamp.description%>
+          </p>
         </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <%=foundCamp.location%>
+          </li>
+          <li class="list-group-item">$<%=foundCamp.price%>/night </li>
+        </ul>
+        <div class="card-body">
+          <a href="/campgrounds/<%=foundCamp._id%>/edit" class="btn btn-info card-link">Edit</a>
+          <form class="d-inline" action="/campgrounds/<%=foundCamp._id%>?_method=DELETE" method="post">
+            <button class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+        <div class="card-footer text-muted">
+          2 days ago
+        </div>
+      </div>
     </div>
+    <div class="col-6">
+      <h2>Leave a Review</h2>
+      <form action="/campgrounds/<%=foundCamp._id%>/reviews" method="post" class="mb-3 validated-form" novalidate>
+        <div class="mb-3">
+          <label class="form-label" for="rating">Rating</label>
+          <input class="form-range" id="rating" name="review[rating]" type="range" min="1" max="5">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="body">Review</label>
+          <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+          <div class="valid-feedback">
+            Looks Good!
+          </div>
+        </div>
+        <button class="btn-success btn">Submit</button>
+      </form>
+      <% for(let review of foundCamp.reviews){ %>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">
+              Rating: <%= review.rating %>
+            </h5>
+            <p class="card-text">
+              Review: <%= review.body %>
+            </p>
+            <form action="/campgrounds/<%=foundCamp._id%>/reviews/<%=review._id%>?_method=DELETE" method="post">
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+        <% } %>
+    </div>
+  </div>
